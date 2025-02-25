@@ -11,5 +11,6 @@ class Animal(SQLModel, table=True):
     weight_kg: Optional[float] = Field(default=None)
     habitat: Optional[str] = Field(default=None)
     diet: Optional[str] = Field(default=None)
+    image: Optional[str] = Field(default=None)
     zoo_id: Optional[int] = Field(default=None, foreign_key="zoo.id")
     zoo: Optional[Zoo] = Relationship(back_populates="animals")

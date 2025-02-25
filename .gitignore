@@ -5,3 +5,6 @@ __pycache__
 .pytest_cache
 *.sqlite
 *.db
+seed.py
+request.py
+*.jpg

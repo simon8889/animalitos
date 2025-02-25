@@ -16,7 +16,7 @@ app: FastAPI = FastAPI(
 	lifespan=lifespan
 	)
 
-graphql_app = GraphQLRouter(schema)
+graphql_app = GraphQLRouter(schema, multipart_uploads_enabled=True)
 
 app.include_router(graphql_app, prefix="/graphql")
 
