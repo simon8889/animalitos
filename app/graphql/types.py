@@ -11,6 +11,7 @@ class Animal:
 	weight_kg: Optional[float]
 	habitat: Optional[str]
 	diet: Optional[str]
+	image: Optional[str]
 	zoo: "Zoo"
 	
 @strawberry.type

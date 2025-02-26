@@ -20,10 +20,10 @@ class Mutation:
 			raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 	
 	@strawberry.mutation
-	def add_animal(self, animal: AnimalInput, file: Optional[Upload] = None) -> Animal:
+	async def add_animal(self, animal: AnimalInput, file: Optional[Upload] = None) -> Animal:
 		new_animal: AnimalModel = AnimalModel(**animal.__dict__)
 		try:
-			return AnimalService.add_animal(new_animal, file)
+			return await AnimalService.add_animal(new_animal, file)
 		except:
 			raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 	

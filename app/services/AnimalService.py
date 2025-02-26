@@ -1,6 +1,7 @@
 from app.models.animal import Animal
 from app.models.animal import Zoo
 from app.database import get_session
+from app.config import settings
 from typing import List
 from sqlmodel import select
 from fastapi import HTTPException, status
@@ -29,20 +30,22 @@ class AnimalService:
 		return results
 	
 	@staticmethod
-	def upload_image(file: Upload) -> str:
+	async def upload_image(file: Upload) -> str:
 		try:
 			file_extension = file.filename.split('.')[-1]
 			unique_filename = f"{uuid.uuid4()}.{file_extension}"
-			ImageUploadService().upload(file, unique_filename)
+			await ImageUploadService().upload(file, unique_filename)
+			return unique_filename
 		except:
 			raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 	
 	@staticmethod
-	def add_animal(animal: Animal, file: Upload) -> Animal:
+	async def add_animal(animal: Animal, file: Upload) -> Animal:
 		session = get_session()
 		new_animal = animal
 		if file:
-			new_animal["image"] = AnimalService.upload_image(file)
+			image_uuid = await AnimalService.upload_image(file)
+			new_animal.image = f"https://{settings.AWS_BUCKET}.s3.amazonaws.com/{image_uuid}"
 		session.add(new_animal)
 		session.commit()
 		session.refresh(new_animal)

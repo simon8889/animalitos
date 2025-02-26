@@ -16,6 +16,6 @@ class ImageUploadService:
 	async def upload(self, file_to_upload: Upload, filename: str):
 		try:
 			await file_to_upload.seek(0)
-			self.s3_client.upload_fileobj(file_to_upload.file, self.bucket, f"/{filename}")
+			self.s3_client.upload_fileobj(file_to_upload.file, self.bucket, f"{filename}")
 		except Exception as e:
 			raise HTTPException(status_code = status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error")
