@@ -19,6 +19,8 @@ app: FastAPI = FastAPI(
 	debug=settings.DEBUG,
 	lifespan=lifespan
 	)
+	
+Instrumentator().instrument(app).expose(app)
 
 origins=["*"]
 
@@ -36,8 +38,6 @@ graphql_app = GraphQLRouter(schema, multipart_uploads_enabled=True)
 app.include_router(graphql_app, prefix="/graphql")
 app.include_router(zoo_router, prefix="/zoo")
 app.include_router(animal_router, prefix="/animal")
-
-Instrumentator().instrument(app).expose(app)
 
 @app.get("/")
 def health_check():
