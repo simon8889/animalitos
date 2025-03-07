@@ -7,6 +7,7 @@ from app.graphql.schema import schema
 from app.api.routers import zoo_router, animal_router
 from strawberry.fastapi import GraphQLRouter
 from fastapi.middleware.cors import CORSMiddleware
+from prometheus_fastapi_instrumentator import Instrumentator
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -34,6 +35,8 @@ graphql_app = GraphQLRouter(schema, multipart_uploads_enabled=True)
 app.include_router(graphql_app, prefix="/graphql")
 app.include_router(zoo_router, prefix="/zoo")
 app.include_router(animal_router, prefix="/animal")
+
+Instrumentator().instrument(app).expose(app)
 
 @app.get("/")
 def health_check():

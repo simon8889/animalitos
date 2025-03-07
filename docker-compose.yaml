@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: .
+    networks:
+      - monitoring
+    ports:
+      - "8000:8000"
+    env_file: ./.env
+  
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - '9090:9090'
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
