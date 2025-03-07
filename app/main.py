@@ -4,7 +4,8 @@ from fastapi.responses import JSONResponse
 from app.database import init_db
 from app.config import settings
 from app.graphql.schema import schema
-from app.api.routers import zoo_router, animal_router
+from app.api.routes.zoo import zoo_router
+from app.api.routes.animal import animal_router
 from strawberry.fastapi import GraphQLRouter
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_fastapi_instrumentator import Instrumentator
